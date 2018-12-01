@@ -1,6 +1,6 @@
 import * as phaser from 'phaser';
 import { UIMenu } from './game/ui';
-import { UnitSprite } from './game/unit';
+import { UnitSprite } from './game/world/unit';
 
 // Global Flags.
 declare const FLAGS_DIMENSIONS: {

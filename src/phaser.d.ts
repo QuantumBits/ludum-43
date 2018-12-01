@@ -1784,7 +1784,7 @@ declare type JSONGameObject = {
 declare type EachContainerCallback<I> = (item: any, ...args: any[]) => void;
 
 declare namespace Phaser.GameObjects.Graphics {
-  namespace Commands {  }
+  namespace Commands {}
 }
 
 /**
@@ -69063,9 +69063,7 @@ declare namespace Phaser {
      */
     const NEAREST: any;
 
-    namespace Parsers {
-
-    }
+    namespace Parsers {}
 
     /**
      * A Texture consists of a source, usually an Image from the Cache, and a collection of Frames.
@@ -69738,9 +69736,7 @@ declare namespace Phaser {
   }
 
   namespace Tilemaps {
-    namespace Components {
-
-    }
+    namespace Components {}
 
     /**
      * A Dynamic Tilemap Layer is a Game Object that renders LayerData from a Tilemap when used in combination
@@ -76904,9 +76900,7 @@ declare namespace Phaser {
      */
     function NOOP(): void;
 
-    namespace Object {
-
-    }
+    namespace Object {}
 
     namespace String {
       /**

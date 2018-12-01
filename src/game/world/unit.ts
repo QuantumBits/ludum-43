@@ -1,4 +1,3 @@
-// tslint:disable:no-magic-numbers
 import * as phaser from 'phaser';
 
 export class UnitSprite extends phaser.GameObjects.Sprite {
