@@ -8,7 +8,7 @@
     "build:pretty": "NODE_ENV=production webpack --env.beautify=true --config ./config/webpack.prod.js",
     "clean": "rimraf -- dist",
     "deploy": "./script/deploy.sh",
-    "format": "prettier --config .prettierrc.json --write \"{,!(node_modules|dist|src/assets)/**/}{,!(package-lock)}.{js,json,jsx,ts}\"",
+    "format": "prettier --config .prettierrc.json --write \"{,!(node_modules|dist)/**/}{,!(package-lock)}.{js,json,jsx,ts}\"",
     "format:check": "prettier-check --list-different \"{,!(node_modules|dist)/**/}{,!(package-lock)}.{js,json,jsx,ts}\"",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",

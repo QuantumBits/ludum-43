@@ -1,5 +1,6 @@
 import * as phaser from 'phaser';
 import { UIMenu } from './game/ui';
+import { UnitSprite } from './game/unit';
 
 // Global Flags.
 declare const FLAGS_DIMENSIONS: {
@@ -9,7 +10,7 @@ declare const FLAGS_DIMENSIONS: {
 
 // Test Scene
 class HelloScene extends phaser.Scene {
-  private player!: phaser.GameObjects.Sprite;
+  private player!: UnitSprite;
   private cursors!: phaser.Input.Keyboard.CursorKeys;
   private uiMenu!: UIMenu;
   private tilemap!: phaser.Tilemaps.Tilemap;
@@ -21,7 +22,10 @@ class HelloScene extends phaser.Scene {
   public preload(): void {
     this.load.tilemapTiledJSON('map', 'src/assets/desert.json');
     this.load.image('desert', 'src/assets/desert.png');
-    this.load.image('player', 'src/assets/mushroom.png');
+    this.load.image('pc1', 'src/assets/pc1.png');
+    this.load.image('pc2', 'src/assets/pc2.png');
+    this.load.image('pc3', 'src/assets/pc3.png');
+    this.load.image('npc', 'src/assets/npc.png');
   }
 
   public create(): void {
@@ -29,28 +33,38 @@ class HelloScene extends phaser.Scene {
     const tileset = this.tilemap.addTilesetImage('desert');
     this.tilemap.createDynamicLayer(0, tileset, 0, 0);
 
-    this.player = this.add.sprite(100, 100, 'player');
+    this.player = new UnitSprite(this, 100, 100, '1');
+    this.children.add(this.player);
+    this.player.setScale(0.5);
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    this.cameras.main.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
+    this.cameras.main.setBounds(
+      0,
+      0,
+      this.tilemap.widthInPixels,
+      this.tilemap.heightInPixels
+    );
     this.cameras.main.startFollow(this.player, false);
     this.createUI();
   }
 
   public update(_: number, __: number): void {
     this.uiMenu.update();
-    this.player.angle += 1;
     if (this.cursors.left!.isDown) {
       this.player.x -= 5;
+      this.player.faceWest();
     }
     if (this.cursors.right!.isDown) {
       this.player.x += 5;
+      this.player.faceEast();
     }
     if (this.cursors.down!.isDown) {
       this.player.y += 5;
+      this.player.faceSouth();
     }
     if (this.cursors.up!.isDown) {
       this.player.y -= 5;
+      this.player.faceNorth();
     }
     this.mouseInput();
   }
@@ -60,8 +74,13 @@ class HelloScene extends phaser.Scene {
     if (!pointer.isDown) {
       return;
     }
-    const worldPoint: Phaser.Math.Vector2 = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
-    const clickedTile = this.tilemap.getTileAtWorldXY(worldPoint.x, worldPoint.y);
+    const worldPoint: Phaser.Math.Vector2 = pointer.positionToCamera(
+      this.cameras.main
+    ) as Phaser.Math.Vector2;
+    const clickedTile = this.tilemap.getTileAtWorldXY(
+      worldPoint.x,
+      worldPoint.y
+    );
     if (clickedTile !== null) {
       clickedTile.setAlpha(0);
     }
