@@ -1,4 +1,3 @@
-// tslint:disable:no-magic-numbers
 import * as phaser from 'phaser';
 import { UIMenu } from './game/ui';
 
@@ -13,6 +12,7 @@ class HelloScene extends phaser.Scene {
   private player!: phaser.GameObjects.Sprite;
   private cursors!: phaser.Input.Keyboard.CursorKeys;
   private uiMenu!: UIMenu;
+  private tilemap!: phaser.Tilemaps.Tilemap;
 
   constructor() {
     super({ key: 'HelloScene' });
@@ -25,14 +25,13 @@ class HelloScene extends phaser.Scene {
   }
 
   public create(): void {
-    const map = this.make.tilemap({ key: 'map' });
-    const tileset = map.addTilesetImage('desert');
-    map.createStaticLayer(0, tileset, 0, 0);
+    this.tilemap = this.make.tilemap({ key: 'map' });
+    const tileset = this.tilemap.addTilesetImage('desert');
+    this.tilemap.createDynamicLayer(0, tileset, 0, 0);
 
     this.player = this.add.sprite(100, 100, 'player');
-    this.cursors = this.input.keyboard.createCursorKeys();
 
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
     this.cameras.main.startFollow(this.player, false);
     this.createUI();
   }
@@ -49,8 +48,18 @@ class HelloScene extends phaser.Scene {
     if (this.cursors.down!.isDown) {
       this.player.y += 5;
     }
-    if (this.cursors.up!.isDown) {
-      this.player.y -= 5;
+    this.mouseInput();
+  }
+
+  private mouseInput(): void {
+    const pointer = this.input.activePointer;
+    if (!pointer.isDown) {
+      return;
+    }
+    const worldPoint: Phaser.Math.Vector2 = pointer.positionToCamera(this.cameras.main) as Phaser.Math.Vector2;
+    const clickedTile = this.tilemap.getTileAtWorldXY(worldPoint.x, worldPoint.y);
+    if (clickedTile !== null) {
+      clickedTile.setAlpha(0);
     }
   }
 
@@ -65,10 +74,8 @@ class HelloScene extends phaser.Scene {
 
 (() => {
   // Constructor has side-effects.
-  // tslint:disable-next-line:no-unused-expression
   new phaser.Game({
     type: phaser.AUTO,
-    // tslint:disable-next-line:object-literal-sort-keys
     parent: 'content',
     width: FLAGS_DIMENSIONS.width,
     height: FLAGS_DIMENSIONS.height,
