@@ -30,6 +30,7 @@ class HelloScene extends phaser.Scene {
     this.tilemap.createDynamicLayer(0, tileset, 0, 0);
 
     this.player = this.add.sprite(100, 100, 'player');
+    this.cursors = this.input.keyboard.createCursorKeys();
 
     this.cameras.main.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
     this.cameras.main.startFollow(this.player, false);
@@ -47,6 +48,9 @@ class HelloScene extends phaser.Scene {
     }
     if (this.cursors.down!.isDown) {
       this.player.y += 5;
+    }
+    if (this.cursors.up!.isDown) {
+      this.player.y -= 5;
     }
     this.mouseInput();
   }
@@ -74,6 +78,7 @@ class HelloScene extends phaser.Scene {
 
 (() => {
   // Constructor has side-effects.
+  // tslint:disable-next-line:no-unused-expression
   new phaser.Game({
     type: phaser.AUTO,
     parent: 'content',

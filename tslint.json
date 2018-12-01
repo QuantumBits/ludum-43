@@ -41,5 +41,6 @@
     "prefer-readonly": true,
 
     "member-ordering": false,
+    "object-literal-sort-keys": false
   }
 }
