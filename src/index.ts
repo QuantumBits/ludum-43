@@ -20,8 +20,8 @@ class HelloScene extends phaser.Scene {
   }
 
   public preload(): void {
-    this.load.tilemapTiledJSON('map', 'src/assets/desert.json');
-    this.load.image('desert', 'src/assets/desert.png');
+    this.load.tilemapTiledJSON('map', 'src/assets/spaceship.json');
+    this.load.image('spaceship', 'src/assets/spaceship.png');
     this.load.image('pc1', 'src/assets/pc1.png');
     this.load.image('pc2', 'src/assets/pc2.png');
     this.load.image('pc3', 'src/assets/pc3.png');
@@ -30,7 +30,7 @@ class HelloScene extends phaser.Scene {
 
   public create(): void {
     this.tilemap = this.make.tilemap({ key: 'map' });
-    const tileset = this.tilemap.addTilesetImage('desert');
+    const tileset = this.tilemap.addTilesetImage('spaceship');
     this.tilemap.createDynamicLayer(0, tileset, 0, 0);
 
     this.player = new UnitSprite(this, 100, 100, '1');
