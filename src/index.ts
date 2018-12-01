@@ -1,4 +1,3 @@
-// tslint:disable:no-magic-numbers
 import * as phaser from 'phaser';
 
 // Global Flags.
@@ -35,19 +34,7 @@ class HelloScene extends phaser.Scene {
   }
 
   public update(_: number, __: number): void {
-    this.player.angle += 1;
-    if (this.cursors.left!.isDown) {
-      this.player.x -= 5;
-    }
-    if (this.cursors.right!.isDown) {
-      this.player.x += 5;
-    }
-    if (this.cursors.down!.isDown) {
-      this.player.y += 5;
-    }
-    if (this.cursors.up!.isDown) {
-      this.player.y -= 5;
-    }
+    
   }
 }
 
