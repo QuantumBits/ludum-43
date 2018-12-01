@@ -12,6 +12,7 @@ declare const FLAGS_DIMENSIONS: {
 class HelloScene extends phaser.Scene {
   private player!: phaser.GameObjects.Sprite;
   private cursors!: phaser.Input.Keyboard.CursorKeys;
+  private uiMenu!: UIMenu;
 
   constructor() {
     super({ key: 'HelloScene' });
@@ -37,6 +38,7 @@ class HelloScene extends phaser.Scene {
   }
 
   public update(_: number, __: number): void {
+    this.uiMenu.update();
     this.player.angle += 1;
     if (this.cursors.left!.isDown) {
       this.player.x -= 5;
@@ -53,7 +55,11 @@ class HelloScene extends phaser.Scene {
   }
 
   private createUI(): void {
-    this.children.add(new UIMenu(this));
+    this.uiMenu = new UIMenu(this);
+    this.uiMenu.addCharacter('Jesse');
+    this.uiMenu.addCharacter('Alex');
+    this.uiMenu.addCharacter('Matan');
+    this.children.add(this.uiMenu);
   }
 }
 
